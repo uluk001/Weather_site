@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+
+{% block title %} Weather {% endblock %}
+    
+{% block content %}
+<style>
+.WEATHER .temp{
+    font-size: 90px;
+    font-family: serif;
+}
+.WEATHER{
+    /* display: flex;
+    justify-content: flex-start; */
+    display: flex;
+    flex-direction: row;
+}
+.second{
+    color: rgb(94, 94, 94);
+    size: 13px;
+    font-family: serif;
+}
+span{
+    color: rgb(26, 26, 26);
+    font-size: 50px;
+}
+span{
+    margin-bottom: 30px;
+}
+.third{
+    margin-left: 300px;
+}
+.second_button{
+    margin-left: 1000px;
+}
+h3{
+    color: rgb(73, 73, 73);
+    font-family: serif;
+}
+.first{
+    display: flex;
+    flex-direction: row;
+}
+</style>
+<!-- <div class="container">
+    <h1 class="text-center mt-5">Weather</h1>
+    <form action="/search/" method="POST" class="input-group mb-3 mt-5">
+        {% csrf_token %}
+        <input type="text" class="form-control" placeholder="Название города" aria-label="Recipient's username" aria-describedby="button-addon2">
+        <button class="btn btn-outline-primary" type="submit" id="button-addon2">Поиск</button>
+    </form> -->
+    <div class="container">
+        <h1 class="text-center mt-5">Погода</h1>
+        
+        <form action="/search/" method="POST" class="input-group mb-3 mt-5">
+            {% csrf_token %}
+            <input type="text" class="form-control" placeholder="Называния города" aria-label="Recipient's username" aria-describedby="button-addon2"  name="city">
+            <button class="btn btn-outline-secondary" type="sumbit" id="button-addon2">Поиск</button>
+        </form>
+        
+        {% if humidity > 0%}
+        <div class="WEATHER">
+            <div class="first">
+            <img src="https://openweathermap.org/img/wn/{{icon}}@4x.png" alt="">
+            <h1 class="temp">{{temp}}<span>°C</span>|</h1>
+        </div>
+        <div class="second">
+            <p>Влажность:{{humidity}}%<br>
+            Ощушается как:{{like}}<br>
+            Минимальная температура:{{min}}<br>
+            Максимальная температура:{{max}}</p>
+        </div>
+        <div class="third">
+            <h2>{{name}}</h2>
+            <h3>{{discription}}</h3>
+        </div>
+        {%endif%}
+    </div>
+</div>  
+{% endblock %}

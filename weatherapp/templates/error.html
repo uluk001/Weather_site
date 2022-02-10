@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'CSS/style404.css'%}">
+    <title>Document</title>
+</head>
+<style>
+    @import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@800&family=Roboto:wght@100;300&display=swap");
+:root {
+  --button: #5e5d5d;
+  --button-color: #ffffff;
+  --shadow: rgb(53, 53, 53);
+  --bg: #e6e6e6;
+  --header: #7a7a7a;
+  --color: #fafafa;
+  --lit-header: #e6e6e6;
+  --speed: 2s;
+}
+* {
+  box-sizing: border-box;
+  transform-style: preserve-3d;
+}
+body {
+  min-height: 100vh;
+  display: flex;
+  font-family: 'Roboto', sans-serif;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: rgb(34, 34, 34);
+  color: var(--color);
+  perspective: 1200px;
+}
+a {
+  font-family: serif;
+  text-transform: uppercase;
+  text-decoration: none;
+  background: var(--button);
+  color: var(--button-color);
+  padding: 1rem 4rem;
+  border-radius: 4rem;
+  font-size: 0.875rem;
+  letter-spacing: 0.05rem;
+  margin-left: 290px;
+  text-decoration: solid;
+}
+p {
+  font-weight: 100;
+}
+h1{
+  font-size: clamp(5rem, 40vmin, 20rem);
+  font-family: 'Open Sans', sans-serif;
+  margin: 0;
+  color: rgb(255, 255, 255);
+}
+h1:after {
+  -webkit-animation: var(--speed) var(--speed) infinite alternate ease-in-out;
+          animation: var(--speed) infinite alternate ease-in-out;
+  content: "404";
+  position: absolute;
+  top: 0;
+  left: 0;
+  color: var(--shadow);
+  filter: blur(1.5vmin);
+  transform: scale(1.05) translate3d(0, 12%, -10vmin) translate(calc((var(--swing-x, 0) * 0.05) * 1%), calc((var(--swing-y) * 0.05) * 1%));
+}
+h2{
+    margin-left: 50px;
+    color: #ffffff;
+    font-family: serif;
+    text-shadow: #fafafa;
+}
+</style>
+<body>
+    <h1>404</h1>
+    <div class="cloak__wrapper">
+        <div class="cloak__container">
+            <div class="cloak">
+                <div class="info">
+                    <h2>Cервер не может найти данные согласно запросу</h2>
+                <a href="{% url 'main' %}">Home</a>
+                </div>
+            </div>
+        </div>
+    </div>    
+</body>
+</html>

@@ -60,7 +60,8 @@ def main(request):
         max1 = data2['main']['temp_max']
         min1 = data2['main']['temp_min']
         name1 = data2['name']
-        return render(request, "index.html", {'data':data2, 'temp':temp1, 'discription':discription1, 'humidity':humidity1, 'like':like1, 'min':min1, 'max':max1, 'name':name1})
+        icon1 = data2['weather'][0]['icon']
+        return render(request, "index.html", {'data':data2, 'icon1':icon1, 'temp':temp1, 'discription':discription1, 'humidity':humidity1, 'like':like1, 'min':min1, 'max':max1, 'name':name1})
     except KeyError:
         return render(request, 'error.html')
 # def main(request):

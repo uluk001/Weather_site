@@ -15,14 +15,13 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from weatherapp.views import main, weather, search, create 
+from weatherapp.views import main, weather, search, create
 
 
 urlpatterns = [
     path('', main, name='main'),
     path('create/', create, name='create'),
     path('search/', search, name="search"),
-    # path('search1/', search1, name="search1"),
     path('weather/', weather, name='weather'),
     path('admin/', admin.site.urls),
 ]

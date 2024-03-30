@@ -1,35 +1,55 @@
-from urllib import response
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 import requests
 from weatherapp.models import Weather
-# Create your views here.
 
-def main(request):
-    return render(request, "index.html")
 
 def weather(request):
-        return render(request, "weather.html")
+    return render(request, "weather.html")
+
 
 def search(request):
     try:
         if request.method == 'POST':
-            city = request.POST.get('city')
+            city_name = request.POST.get('city')
             API_KEY = '6440b74da23867d7cabf14b30f57a6bd'
-            weather_API = f'https://api.openweathermap.org/data/2.5/weather?q={city}&units=metric&appid={API_KEY}'
-            res = requests.get(weather_API)
-            data = res.json()
-            temp = data['main']['temp']
-            discription = data['weather'][0]['main']
-            humidity = data['main']['humidity']
-            like = data['main']['feels_like']
-            max = data['main']['temp_max']
-            min = data['main']['temp_min']
-            name = data['name']
-            icon = data['weather'][0]['icon']
-            return render(request, "weather.html", {'icon':icon, 'temp':temp, 'city':city, 'discription':discription, 'humidity':humidity, 'like':like, 'min':min, 'max':max, 'name':name})
+            weather_API_url = (
+                f'https://api.openweathermap.org/data/2.5/weather?q={city_name}'
+                f'&units=metric&appid={API_KEY}'
+            )
+
+            response = requests.get(weather_API_url)
+            weather_data = response.json()
+
+            temperature = weather_data['main']['temp']
+            weather_description = weather_data['weather'][0]['main']
+            humidity = weather_data['main']['humidity']
+            feels_like = weather_data['main']['feels_like']
+            max_temp = weather_data['main']['temp_max']
+            min_temp = weather_data['main']['temp_min']
+            city = weather_data['name']
+            weather_icon = weather_data['weather'][0]['icon']
+
+            return render(
+                request,
+                "weather.html",
+                {
+                    'icon': weather_icon,
+                    'temp': temperature,
+                    'city': city_name,
+                    'max_temp': max_temp,
+                    'description': weather_description,
+                    'humidity': humidity,
+                    'feels_like': feels_like,
+                    'min_temp': min_temp,
+                    'city_name': city
+                }
+            )
     except KeyError:
-        return render(request, 'error.html')
+        return render(request, 'error.html', {
+            'message': 'Error retrieving weather data.'
+            }
+            )
 
 
 def create(request):
@@ -43,27 +63,49 @@ def create(request):
         return render(request, 'error.html')
 
 
-
 def main(request):
+    weather_objects = Weather.objects.all()
+
+    if not weather_objects.exists():
+        return render(request, 'index.html', {
+            'message': 'No cities found in Weather model.'
+            }
+        )
+
+    for weather in weather_objects:
+        city_name = weather.city
+
     try:
-        weatherr = Weather.objects.all()
-        for i in weatherr:
-            strr = i.city
-            print(strr)
-        weather_API = f'https://api.openweathermap.org/data/2.5/weather?q={strr}&units=metric&appid=6440b74da23867d7cabf14b30f57a6bd'
-        res = requests.get(weather_API)
-        data2 = res.json()
-        temp1 = data2['main']['temp']
-        discription1 = data2['weather'][0]['main']
-        humidity1 = data2['main']['humidity']
-        like1 = data2['main']['feels_like']
-        max1 = data2['main']['temp_max']
-        min1 = data2['main']['temp_min']
-        name1 = data2['name']
-        icon1 = data2['weather'][0]['icon']
-        return render(request, "index.html", {'data':data2, 'icon1':icon1, 'temp':temp1, 'discription':discription1, 'humidity':humidity1, 'like':like1, 'min':min1, 'max':max1, 'name':name1})
+        weather_API_url = (
+            f'https://api.openweathermap.org/data/2.5/weather?q={city_name}'
+            '&units=metric&appid=6440b74da23867d7cabf14b30f57a6bd'
+        )
+
+        response = requests.get(weather_API_url)
+        weather_data = response.json()
+
+        temperature = weather_data['main']['temp']
+        description = weather_data['weather'][0]['main']
+        humidity = weather_data['main']['humidity']
+        feels_like = weather_data['main']['feels_like']
+        max_temp = weather_data['main']['temp_max']
+        min_temp = weather_data['main']['temp_min']
+        city_name = weather_data['name']
+        weather_icon = weather_data['weather'][0]['icon']
+
+        return render(request, "index.html", {
+            'data': weather_data,
+            'icon': weather_icon,
+            'temp': temperature,
+            'description': description,
+            'humidity': humidity,
+            'feels_like': feels_like,
+            'min_temp': min_temp,
+            'max_temp': max_temp,
+            'city_name': city_name
+        })
     except KeyError:
-        return render(request, 'error.html')
-# def main(request):
-#     weatherr = Weather.objects.all()
-#     return render(request, "index.html", {'weatherr':weatherr})
+        return render(request, 'error.html', {
+            'message': 'Error retrieving weather data.'
+            }
+        )

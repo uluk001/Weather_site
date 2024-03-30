@@ -9,22 +9,19 @@
     font-family: serif;
 }
 .WEATHER{
-    /* display: flex;
-    justify-content: flex-start; */
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap; /* Allows the items to wrap as needed */
 }
 .second{
     color: rgb(94, 94, 94);
-    size: 13px;
+    font-size: 13px; /* Corrected from 'size' to 'font-size' */
     font-family: serif;
 }
 span{
     color: rgb(26, 26, 26);
     font-size: 50px;
-}
-span{
-    margin-bottom: 30px;
+    margin-bottom: 30px; /* Merged two span styles into one */
 }
 .third{
     margin-left: 300px;
@@ -40,27 +37,32 @@ h3{
     display: flex;
     flex-direction: row;
 }
+
+@media (max-width: 768px) {
+    .WEATHER .temp{
+        font-size: 60px; /* Reduce font size on smaller screens */
+    }
+    .third{
+        margin-left: 0; /* Remove left margin on smaller screens */
+    }
+    .second_button{
+        margin-left: 0; /* Remove left margin on smaller screens */
+    }
+}
 </style>
-<!-- <div class="container">
-    <h1 class="text-center mt-5">Weather</h1>
-    <form action="/search/" method="POST" class="input-group mb-3 mt-5">
-        {% csrf_token %}
-        <input type="text" class="form-control" placeholder="Название города" aria-label="Recipient's username" aria-describedby="button-addon2">
-        <button class="btn btn-outline-primary" type="submit" id="button-addon2">Поиск</button>
-    </form> -->
     <div class="container">
         <h1 class="text-center mt-5">Погода</h1>
         
         <form action="/search/" method="POST" class="input-group mb-3 mt-5">
             {% csrf_token %}
-            <input type="text" class="form-control" placeholder="Называния города" aria-label="Recipient's username" aria-describedby="button-addon2"  name="city">
-            <button class="btn btn-outline-secondary" type="sumbit" id="button-addon2">Поиск</button>
+            <input type="text" class="form-control" placeholder="Называния города" aria-label="City Name" aria-describedby="button-addon2"  name="city">
+            <button class="btn btn-outline-secondary" type="submit" id="button-addon2">Поиск</button>
         </form>
         
-        {% if humidity > 0%}
+        {% if humidity > 0 %}
         <div class="WEATHER">
             <div class="first">
-            <img src="https://openweathermap.org/img/wn/{{icon}}@4x.png" alt="">
+            <img src="https://openweathermap.org/img/wn/{{icon}}@4x.png" alt="Weather icon">
             <h1 class="temp">{{temp}}<span>°C</span>|</h1>
         </div>
         <div class="second">
